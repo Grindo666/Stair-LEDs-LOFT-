@@ -25,7 +25,7 @@ FadeState currentFadeState = OFF; // Start off
 
 unsigned long stateStartTime = 0;
 int currentDutyCycle = 0;
-const int fadeInDuration = 500; // Total fade-in time in milliseconds
+const int fadeInDuration = 1000; // Total fade-in time in milliseconds
 const int fadeOutDuration = 2000; // Total fade-out time in milliseconds
 const int onDuration = 30000;      // Duration for ON state in milliseconds
 const int stepDurationInMs = fadeInDuration / 255; // Time per brightness step

@@ -1,0 +1,31 @@
+*****Parts List Only!*****
+For full assembly instructions, see the Build Guide
+
+
+Parts List;
+
+This project will require the following components:
+
+- ESP32 WROOM dev board
+- USB plug and cable to power ESP32
+- RGB LED strip, non-addressable, w/power supply
+- 3x 10k resistor
+- 3x 220R resistor
+- 3x MOSFET IRFZ44N
+- 30 x female pcb socket
+- 2x 3-way Molex connectors and pin headers
+- 1x 4-way Molex connector and pin headers
+- 10x crimpable wire pin terminals
+- 1x 2.1mm DC power socket
+- Wire 
+
+
+It will also require the following tools:
+
+- Soldering iron and solder
+- Wire strippers
+- Wire cutters
+- Crimping tool
+- Desoldering tool (optional)
+- Magnifier (optional)
+- Breadboard (optional) - use to prototype the circuiit before committing to PCB if you're not feeling brave ;-)

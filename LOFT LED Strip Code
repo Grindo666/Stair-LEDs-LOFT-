@@ -15,8 +15,8 @@
 #define PIR_PIN_2 4   // PIR sensor 2 pin
 
 // Your Wi-Fi credentials
-const char *ssid = "Your SSID";
-const char *password = "Your wifi Password";
+const char *ssid = "Del Monte Towers";
+const char *password = "DingleBerry666!";
 
 // Fade State
 enum FadeState {
@@ -63,7 +63,7 @@ void setup() {
 
     // Configure OTA
     ArduinoOTA.setHostname("ESP32-LED-Controller");
-    ArduinoOTA.setPassword("Your OTA Password");
+    ArduinoOTA.setPassword("Grindo666!");
     
     ArduinoOTA.onStart([]() {
         Serial.println("OTA Update Starting...");

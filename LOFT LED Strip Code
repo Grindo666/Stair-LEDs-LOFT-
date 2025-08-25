@@ -1,5 +1,9 @@
 //ESP32 Code in Arduino C++ to control a basic, non-addressable, RGB LED strip with its own PSU.
 // ***REMEMBER TO CHANGE THE WIFI SSID & WIFI AND OTA PASSWORDS TO SUIT YOUR NETWORK***
+
+// WIFI INFO IS ON LINES 18 & 19
+// OTA INFO IS ON LINES 65 & 66
+
 #include <WiFi.h>
 #include <ArduinoOTA.h>
 #include <time.h>

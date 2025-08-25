@@ -1,20 +1,18 @@
-// NOTE**** - THE RED AND GREEN PINS ARE SWAPPED/MISWIRED SO RED = GREEN AND GREEN = RED.
-// EG: TO ACHIEVE RED ONLY, YOU'D SET GREEN TO 255, AND RED AND BLUE TO 0
-// TO ACHIEVE A GIVEN RGB VALUE, SWAP THE RED AND GREEN VALUES. THIS IS REFLECTED IN THE CODE
-
+//ESP32 Code in Arduino C++ to control a basic, non-addressable, RGB LED strip with its own PSU.
+// ***REMEMBER TO CHANGE THE WIFI SSID & WIFI AND OTA PASSWORDS TO SUIT YOUR NETWORK***
 #include <WiFi.h>
 #include <ArduinoOTA.h>
 #include <time.h>
 
-#define RED_PIN 26
-#define GREEN_PIN 14
+#define RED_PIN 14
+#define GREEN_PIN 26
 #define BLUE_PIN 33
 #define PIR_PIN_1 13  // PIR sensor 1 pin
 #define PIR_PIN_2 4   // PIR sensor 2 pin
 
 // Your Wi-Fi credentials
-const char *ssid = "Your-SSID";
-const char *password = "Your-Password";
+const char *ssid = "Your SSID";
+const char *password = "Your wifi Password";
 
 // Fade State
 enum FadeState {
@@ -35,9 +33,6 @@ const int stepDurationInMs = fadeInDuration / 255; // Time per brightness step
 bool fadeActive = false; // To track if the fade effect is active
 int activePIR = -1; // Track which PIR is active (-1 = none, 1 = PIR 1, 2 = PIR 2)
 
-// Time-based trigger thresholds (24-hour format)
-const int MORNING_START = 6;  // 6:00 AM
-const int EVENING_START = 18; // 6:00 PM
 
 void setup() {
     Serial.begin(115200);
@@ -64,7 +59,7 @@ void setup() {
 
     // Configure OTA
     ArduinoOTA.setHostname("ESP32-LED-Controller");
-    ArduinoOTA.setPassword("Your-OTA-Password");
+    ArduinoOTA.setPassword("Your OTA Password");
     
     ArduinoOTA.onStart([]() {
         Serial.println("OTA Update Starting...");
@@ -102,16 +97,16 @@ configTime(0, 3600, "pool.ntp.org", "time.nist.gov");
 void runLEDTest() {
     Serial.println("Starting LED test sequence...");
     
-    // Test basic colors first
+       // Test basic colors first
     Serial.println("Testing RED LEDs...");
-    analogWrite(RED_PIN, 0);
-    analogWrite(GREEN_PIN, 255);
+    analogWrite(RED_PIN, 255);
+    analogWrite(GREEN_PIN, 0);
     analogWrite(BLUE_PIN, 0);
     delay(1000);
     
     Serial.println("Testing GREEN LEDs...");
-    analogWrite(RED_PIN, 255);
-    analogWrite(GREEN_PIN, 0);
+    analogWrite(RED_PIN, 0);
+    analogWrite(GREEN_PIN, 255);
     analogWrite(BLUE_PIN, 0);
     delay(1000);
     
@@ -126,29 +121,29 @@ void runLEDTest() {
     
     // BST: Green 40%
     Serial.println("BST: Green 40%...");
-    analogWrite(RED_PIN, 255 * (102 / 255.0));
-    analogWrite(GREEN_PIN, 0 * (102 / 255.0));
-    analogWrite(BLUE_PIN, 0 * (102 / 255.0));
-    delay(1000);
-    
-    // BST: Green 80%
-    Serial.println("BST: Green 80%...");
-    analogWrite(RED_PIN, 255 * (204 / 255.0));
-    analogWrite(GREEN_PIN, 0 * (204 / 255.0));
-    analogWrite(BLUE_PIN, 0 * (204 / 255.0));
-    delay(1000);
-    
-    // BST: Red 40%
-    Serial.println("BST: Red 40%...");
     analogWrite(RED_PIN, 0 * (102 / 255.0));
     analogWrite(GREEN_PIN, 255 * (102 / 255.0));
     analogWrite(BLUE_PIN, 0 * (102 / 255.0));
     delay(1000);
     
+    // BST: Green 80%
+    Serial.println("BST: Green 80%...");
+    analogWrite(RED_PIN, 0 * (204 / 255.0));
+    analogWrite(GREEN_PIN, 255 * (204 / 255.0));
+    analogWrite(BLUE_PIN, 0 * (204 / 255.0));
+    delay(1000);
+    
+    // BST: Red 40%
+    Serial.println("BST: Red 40%...");
+    analogWrite(RED_PIN, 255 * (102 / 255.0));
+    analogWrite(GREEN_PIN, 0 * (102 / 255.0));
+    analogWrite(BLUE_PIN, 0 * (102 / 255.0));
+    delay(1000);
+    
     // BST: Orange 55%
     Serial.println("BST: Orange 55%...");
-    analogWrite(RED_PIN, 165 * (140 / 255.0));
-    analogWrite(GREEN_PIN, 255 * (140 / 255.0));
+    analogWrite(RED_PIN, 255 * (140 / 255.0));
+    analogWrite(GREEN_PIN, 165 * (140 / 255.0));
     analogWrite(BLUE_PIN, 0 * (140 / 255.0));
     delay(1000);
     
@@ -161,67 +156,67 @@ void runLEDTest() {
     
     // BST: Orange 75%
     Serial.println("BST: Orange 75%...");
-    analogWrite(RED_PIN, 165 * (191 / 255.0));
-    analogWrite(GREEN_PIN, 255 * (191 / 255.0));
+    analogWrite(RED_PIN, 255 * (191 / 255.0));
+    analogWrite(GREEN_PIN, 165 * (191 / 255.0));
     analogWrite(BLUE_PIN, 0 * (191 / 255.0));
     delay(1000);
     
     // BST: Orange 60%
     Serial.println("BST: Orange 60%...");
-    analogWrite(RED_PIN, 165 * (153 / 255.0));
-    analogWrite(GREEN_PIN, 255 * (153 / 255.0));
+    analogWrite(RED_PIN, 255 * (153 / 255.0));
+    analogWrite(GREEN_PIN, 165 * (153 / 255.0));
     analogWrite(BLUE_PIN, 0 * (153 / 255.0));
     delay(1000);
     
     // Test GMT time-based color settings
     Serial.println("Testing GMT color settings...");
     
-    // GMT: Green 40% (same as BST)
+    // GMT: Green 40%
     Serial.println("GMT: Green 40%...");
-    analogWrite(RED_PIN, 255 * (102 / 255.0));
-    analogWrite(GREEN_PIN, 0 * (102 / 255.0));
-    analogWrite(BLUE_PIN, 0 * (102 / 255.0));
-    delay(1000);
-    
-    // GMT: Green 80% (same as BST)
-    Serial.println("GMT: Green 80%...");
-    analogWrite(RED_PIN, 255 * (204 / 255.0));
-    analogWrite(GREEN_PIN, 0 * (204 / 255.0));
-    analogWrite(BLUE_PIN, 0 * (204 / 255.0));
-    delay(1000);
-    
-    // GMT: Red 40% (extended hours 00:00-06:59)
-    Serial.println("GMT: Red 40% (extended)...");
     analogWrite(RED_PIN, 0 * (102 / 255.0));
     analogWrite(GREEN_PIN, 255 * (102 / 255.0));
     analogWrite(BLUE_PIN, 0 * (102 / 255.0));
     delay(1000);
     
-    // GMT: Orange 55% (07:00-07:59)
+    // GMT: Green 80%
+    Serial.println("GMT: Green 80%...");
+    analogWrite(RED_PIN, 0 * (204 / 255.0));
+    analogWrite(GREEN_PIN, 255 * (204 / 255.0));
+    analogWrite(BLUE_PIN, 0 * (204 / 255.0));
+    delay(1000);
+    
+    // GMT: Red 40% (extended hours)
+    Serial.println("GMT: Red 40% (extended)...");
+    analogWrite(RED_PIN, 255 * (102 / 255.0));
+    analogWrite(GREEN_PIN, 0 * (102 / 255.0));
+    analogWrite(BLUE_PIN, 0 * (102 / 255.0));
+    delay(1000);
+    
+    // GMT: Orange 55%
     Serial.println("GMT: Orange 55%...");
-    analogWrite(RED_PIN, 165 * (140 / 255.0));
-    analogWrite(GREEN_PIN, 255 * (140 / 255.0));
+    analogWrite(RED_PIN, 255 * (140 / 255.0));
+    analogWrite(GREEN_PIN, 165 * (140 / 255.0));
     analogWrite(BLUE_PIN, 0 * (140 / 255.0));
     delay(1000);
     
-    // GMT: White 100% (08:00-15:59)
+    // GMT: White 100%
     Serial.println("GMT: White 100%...");
     analogWrite(RED_PIN, 255 * (255 / 255.0));
     analogWrite(GREEN_PIN, 255 * (255 / 255.0));
     analogWrite(BLUE_PIN, 255 * (255 / 255.0));
     delay(1000);
     
-    // GMT: Orange 75% (16:00-21:59)
+    // GMT: Orange 75%
     Serial.println("GMT: Orange 75%...");
-    analogWrite(RED_PIN, 165 * (191 / 255.0));
-    analogWrite(GREEN_PIN, 255 * (191 / 255.0));
+    analogWrite(RED_PIN, 255 * (191 / 255.0));
+    analogWrite(GREEN_PIN, 165 * (191 / 255.0));
     analogWrite(BLUE_PIN, 0 * (191 / 255.0));
     delay(1000);
     
-    // GMT: Orange 60% (22:00-23:59, same as BST)
+    // GMT: Orange 60%
     Serial.println("GMT: Orange 60%...");
-    analogWrite(RED_PIN, 165 * (153 / 255.0));
-    analogWrite(GREEN_PIN, 255 * (153 / 255.0));
+    analogWrite(RED_PIN, 255 * (153 / 255.0));
+    analogWrite(GREEN_PIN, 165 * (153 / 255.0));
     analogWrite(BLUE_PIN, 0 * (153 / 255.0));
     delay(1000);
     
@@ -231,7 +226,7 @@ void runLEDTest() {
     analogWrite(BLUE_PIN, 0);
     
     Serial.println("LED test sequence complete. All BST and GMT settings tested.");
-    delay(500); // Brief pause before normal operation
+    delay(500);
 }
 
 

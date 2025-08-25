@@ -1,0 +1,75 @@
+This repo will contain the following:
+
+1) ESP32 code to control a basic non-addressable LED strip, triggered by PIR sensors
+
+2) Parts list
+
+3) Circuit Schematic
+
+4) Board layouts for both vero and PCB (THT and SMT versions)
+
+5) Assembly guide
+
+
+Function:
+This project is to light up the stairs to my loft and make them look cooler in the process. 
+
+It features the following hardware:
+- ESP32 WROOM dev module
+- 2x PIR sensors
+- RGB LED strip w/power supply
+- 3x MOSFETs
+- 6x resistors
+- Strip board/vero board
+- USB cable/plug to power ESP32
+
+
+The strip is mounted along the wall just above the stairs, with a PIR sensor mounted at each end of the stairs. 
+
+When a PIR sensor is triggered, it will light up the LED strip for a preset duration.
+
+The sensor PCBs have a jumper to allow you to set it to trigger once only, or allow retriggers. 
+In this build, the sensors are set to allow retriggers. 
+This means each time the sensor is retriggered and the LEDs are on, the countdown timer is reset, so each person walking down the stairs will get the full amount of LED on-time.
+
+When one sensor is triggered, the ESP32 is coded to ignore triggers from the other sensor at the opposite end of the stairs for the duration that the LEDs are on. 
+This means the timer does not get reset as you reach the end of the stairs and doesn't keep the LEDs on unnecessarily. 
+
+
+Settings:
+The ESP32 acts as the LED controller unit and is programmed to turn the LEDs on at different colour and brightness settings depending on the time of day. 
+
+It achieves this by connecting to wifi to monitor the time, and when a sensor is triggered, it activates the LEDs with the predefined settings assigned to that time range. 
+It also accounts for daylight savings time changes (GMT vs BST) and utilises a second grouping of time based colour and brightness settings to suit the differences in daylight levels at different times across both GMT and BST.
+
+GMT settings:
+// GMT (Greenwich Mean Time) settings
+        
+            // 04:18 - 04:22: Green, 40% brightness
+            // 00:00 - 06:59: Red, 40% brightness
+            // 07:00 - 07:59: Orange, 55% brightness
+            // 08:00 - 15:59: White, 100% brightness
+            // 16:00 - 21:59: Orange, 75% brightness
+            // 16:18 - 16:22: Green, 80% brightness
+            // 22:00 - 23:59: Orange, 60% brightness
+            
+BST settings:
+
+            // 04:18 - 04:22: Green, 40% brightness
+            // 00:00 - 05:59: Red, 40% brightness
+            // 06:00 - 07:59: Orange, 55% brightness
+            // 08:00 - 16:59: White, 100% brightness
+	    // 16:18 - 16:22: Green, 80% brightness            
+	    // 17:00 - 21:59: Orange, 75% brightness
+            // 22:00 - 23:59: Orange, 60% brightness
+        
+
+Power on self test:
+The system runs through its own POST process on startup. 
+It will cycle through the red, green, and blue LEDs first, to provide visual confirmation that each colour is functioning.
+It will then cycle through each colour setting for BST then for GMT, to show that each setting is functioning. 
+The LEDs will then switch off and will not activate until one of the two PIR sensors are triggered. 
+
+
+
+

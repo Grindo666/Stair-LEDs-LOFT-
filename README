@@ -1,17 +1,35 @@
+This is an ESP32 powered project used to light up the stairs to the studio in my loft with an LED strip. 
+
+It features:
+- PIR sensor activation - LED strip only lights up when sensors are triggered
+- Time dependant colour and brightness settings - different modes to suit the time of day
+- Different time ranges and colour modes for GMT and BST - accounts for the changes in time when the clocks go fwd/back
+- Wifi Connectivity - connects to internet to monitor time
+- Updates over WiFi - can be updated using the inbuilt OTA functionality so no need for a USB cable
+- Remote Monitoring - can be monitored using the device IP address and a web browser instead of monitoring inside your IDE.
+
+NOTE: When uploading the code to the ESP32 for the first time, you will need to use a USB cable to get the code on-board, including the OTA functionality. 
+After that, you'll be able to make changes to the code over WiFi using the relevant options in your IDE. 
+
+2nd NOTE: If the code and the ESP become "un-synced", for example Authentication Errors begin appearing when uploading new code, you can re-sync by uploading via USB again. 
+
+
+CONTENTS:
 This repo will contain the following:
 
-1) ESP32 code to control a basic non-addressable LED strip, triggered by PIR sensors
+1) Code file - An *.ino file containing C++ code to upload to an ESP32 and control a basic non-addressable LED strip, triggered by PIR sensors
 
-2) Parts list
+2) Parts list - A list of things you'll need to build the project yourslef
 
-3) Circuit Schematic
+3) Circuit Schematic - A diagram of how everything is connected
 
-4) Board layouts for both vero and PCB (THT and SMT versions)
+4) Board layouts - To show how the PCBs should be assembled for both vero and PCB (THT and SMT versions)
 
-5) Assembly guide
+5) Assembly guide - Some instructions. 
 
 
-Function:
+
+FUNCTION:
 This project is to light up the stairs to my loft and make them look cooler in the process. 
 
 It features the following hardware:

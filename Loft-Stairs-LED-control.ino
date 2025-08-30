@@ -23,8 +23,8 @@ const int maxLogLength = 4000; // Keep last 4000 characters
 #define PIR_PIN_2 4   // PIR sensor 2 pin
 
 // Your Wi-Fi credentials
-const char *ssid = "Del Monte Towers";
-const char *password = "DingleBerry666!";
+const char *ssid = "YOUR SSID HERE";
+const char *password = "Your Password Here";
 
 // Fade State
 enum FadeState {
@@ -142,7 +142,7 @@ void setup() {
 
     // Configure OTA
     ArduinoOTA.setHostname("ESP32-LED-Controller");
-    ArduinoOTA.setPassword("esp32");
+    ArduinoOTA.setPassword("");
     
     ArduinoOTA.onStart([]() {
         debugPrintln("OTA Update Starting...");
